@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang='en' ng-app='chattyApp'>
+<head>
+	<title>Chatty</title>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./static/css/style.css">
+
+    <script type="text/javascript">
+
+    	var chattyApp = angular.module('chattyApp', ['ngRoute']);
+
+    	chattyApp.config(function ($routeProvider){
+    		$routeProvider
+    			.when('/createGroup', {
+    				templateUrl: 'partials/newGroup.html'
+    			})
+    			.when('/yourGroup/:id', {
+    				templateUrl: 'partials/yourGroup.html'
+    			})
+    			.when('/', {
+    				templateUrl: 'partials/auto.html' 
+    			})
+    			.otherwise({
+    				redirectTo: '/'
+    			});
+    	});
+
+    	//GROUP CONTROLLER BEGIN HERE
+    	chattyApp.controller('GroupController', function($scope, $location, groupFactory){
+    		// console.log('hello')
+    		$scope.groups = [];
+    		//this function is just to make sure i'm getting data, delete later
+    		// groupFactory.index(function(data){
+    		// 	$scope.groups = data;
+    		// });
+
+    		$scope.checkGroup = function(data){
+    			groupFactory.check($scope.findGroup, function(data){
+    				// console.log(data);
+    				$scope.groups = data;
+    				if(data.error){
+    					var str = JSON.stringify(data.error);
+    					// console.log(str);
+    					// console.log(data.error);
+    					$location.path('/createGroup');
+    					alert(str);
+    				}
+    				else{
+    					// console.log(data._id);
+    					$location.path('/yourGroup/' + data._id);
+    				}
+
+    			});
+    			$scope.findGroup = {};
+    		}
+
+    	});
+
+    	//NEW GROUP CONTROLLER BEGINS HERS
+    	chattyApp.controller('newGroupController', function($scope, $location, groupFactory){
+    		$scope.groups = [];
+
+    		$scope.addGroup = function(data){
+    			groupFactory.create($scope.newGroup, function(data){
+    				console.log(data.error);
+    				$scope.groups = data;
+    				if(data.error){
+    					var str = JSON.stringify(data.error);
+    					$location.path('/createGroup');
+    					alert(str);
+    				}
+    				else{
+    					$location.path('/yourGroup/' + data._id);
+    				}
+    			});
+    			$scope.newGroup = {};
+    			// $location.path('/');
+    		}
+    	});
+
+    	//YOUR GROUP/SOCKET CONTROLLER BEGINS HERE
+
+    	//SOCKET FACTORY BEGINS HERE
+
+
+    	//GROUP FACTORY BEGINS HERE
+    	chattyApp.factory('groupFactory', function($http){
+    		var factory = {};
+    		var groups = [];
+    		
+
+    		factory.index = function(callback){
+    			$http.get('/groups').success(function(output){
+    				//console.log(output);
+    				groups = output;
+    				callback(groups);
+    			});
+    		}
+
+    		factory.create = function(info, callback){
+    			$http.post('/groups', info).success(function(output){
+    				// groups.push(output);
+    				// console.log(output.error);
+    				// factory.index(callback);
+    				callback(output);
+    			});
+    		}
+
+    		factory.check = function(info, callback){
+    			$http.post('/group', info).success(function(output){
+    				// groups.push(output);
+    				// console.log(output);
+    				// groups = output;
+    				callback(output);
+    			});
+    		}
+
+    		return factory;
+    	});
+
+
+    </script>
+
+</head>
+<body>
+	<div class="container" >
+		<div ng-view="">
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+*{
+	margin: 0px auto;
+}
+
+.container {
+	text-align: center;
+}
+
+#chatter {
+	border: black 2px solid;
+	width: 30%;
+	height: 30%;
+}

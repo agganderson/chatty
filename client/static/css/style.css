@@ -4,10 +4,69 @@
 
 .container {
 	text-align: center;
+	height: 900px;
 }
 
-#chatter {
+#auto {
+	background-image: url('../images/sunset.jpg');
+}
+	
+	#auto h2 {
+		color: #ff6666;
+		margin-bottom: 10px;
+	}
+
+	#auto button {
+		margin: 10px;
+	}
+
+#yourGroup {
+	background-image: url('../images/city.jpg');
+}
+
+	#yourGroup h2 {
+		margin-bottom: 20px;
+		color: #ccb3ff;
+	}
+
+	#name_input, #username {
+		margin-bottom: 10px;
+	}
+
+#newGroup {
+	background-image: url('../images/faded_city.jpeg');
+}
+
+	#newGroup h2 {
+		margin-bottom: 20px;
+		color: #80ccff;
+	}
+
+	#newGroup input {
+		margin-bottom: 20px;
+	}
+
+#chat {
+	background-color: white;
+	opacity: 0.6;
+	display: inline-block;
 	border: black 2px solid;
-	width: 30%;
-	height: 30%;
+	width: 40%;
+	min-height: 400px;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+#peeps {
+	background-color: white;
+	opacity: 0.6;
+	display: inline-block;
+	border: black 2px solid;
+	width: 20%;
+	min-height: 400px;
+	margin-bottom: 10px;
+}
+
+#home {
+	margin-top: 10px;
 }
